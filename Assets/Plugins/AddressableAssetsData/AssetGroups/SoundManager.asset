@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SoundManager
+  m_EditorClassIdentifier: 
+  m_GroupName: SoundManager
+  m_Data:
+    m_SerializedData: []
+  m_GUID: d55093dbc7f65a3458baefa3b733d78b
+  m_SerializeEntries:
+  - m_GUID: 38803bbf9fa1932429a173a9e3f92a5d
+    m_Address: Assets/SoundManager/SoundManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 73845996b2e73bd46873c4fd251ff81b
+    m_Address: Assets/StaticData/SoundManager/ClassicSoundManagerData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SoundManager
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f0431b809b74cbe41b3c1566f5cefcb2, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 169fb5204656b884b83132b04ffcf9c0, type: 2}
+    - {fileID: 11400000, guid: 57472a31a8a11a24fad51a585d835122, type: 2}

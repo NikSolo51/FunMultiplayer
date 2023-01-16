@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UI
+  m_EditorClassIdentifier: 
+  m_GroupName: UI
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 959102f363eec2e4385cdadbd71697b6
+  m_SerializeEntries:
+  - m_GUID: c851d6da62f3a0d4d87061b2e9a9ad4d
+    m_Address: RoomButtonUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4988159b8e3e5da4384be04c643a5e99
+    m_Address: PlayerButtonUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f0431b809b74cbe41b3c1566f5cefcb2, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c4a42e4220b9b88488027ba303e15ae5, type: 2}
+    - {fileID: 11400000, guid: e6f32d7a0212a2247a63aa420c8809bc, type: 2}

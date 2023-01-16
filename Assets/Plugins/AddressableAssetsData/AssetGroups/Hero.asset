@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Hero
+  m_EditorClassIdentifier: 
+  m_GroupName: Hero
+  m_Data:
+    m_SerializedData: []
+  m_GUID: f0905c4cda8dac747b39829308a29d41
+  m_SerializeEntries:
+  - m_GUID: 226b0a22df2efb1468271fd356415d15
+    m_Address: Hud
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ffc5a624896109c40a796314cf25c520
+    m_Address: Camera
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 39fe6b26ada4ae44fae58f276b4334fd
+    m_Address: Hero
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f0431b809b74cbe41b3c1566f5cefcb2, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d1a734e0d3256e14abbf32e6bc9ddbc8, type: 2}
+    - {fileID: 11400000, guid: 954152c258f708b40b4469f049ba841e, type: 2}

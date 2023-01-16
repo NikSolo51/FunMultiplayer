@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a2367527b6cca43b7c330e184d4a04, type: 3}
+  m_Name: MainMenu
+  m_EditorClassIdentifier: 
+  LevelKey: MainMenu
+  SoundManagerData:
+    _soundManagerType: 1
+    _sounds:
+    - name: 
+      clip: {fileID: 0}
+      masterVolume: 1
+      masterPitch: 1
+      volume: 1
+      pitch: 1
+      randomVolume: 0.1
+      randomPitch: 0.1
+      playOnAwake: 0
+      loop: 0
+      source: {fileID: 0}
+    _clips: []
+  InitialHostPosition: {x: 0, y: 0, z: 0}
+  InitialOthePlayerPosition: {x: 0, y: 0, z: 0}
