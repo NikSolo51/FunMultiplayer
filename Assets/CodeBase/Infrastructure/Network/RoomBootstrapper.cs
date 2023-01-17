@@ -44,30 +44,27 @@ namespace CodeBase.Infrastructure.Network
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
+            Debug.Log("ImLoaded");
             if (scene.name == LevelName)
             {
                 PhotonView photonView = this.GetComponent<PhotonView>();
-                int heroId = PhotonNetwork.AllocateViewID(false);
-                int cameraId = PhotonNetwork.AllocateViewID(false);
                 int weaponId = PhotonNetwork.AllocateViewID(false);
-
-                photonView.RPC("Initialize", RpcTarget.AllBuffered, heroId, cameraId,weaponId);
+                photonView.RPC("Initialize", RpcTarget.All,weaponId);
             }
         }
 
-        [PunRPC]
-        private async void Initialize(int heroId, int cameraId,int weaponId)
+       [PunRPC]
+        private async void Initialize(int weaponId)
         {
             LevelStaticData levelData = _staticDataService.ForLevel(LevelName);
-
+          
             Vector3 spawnPos = PhotonNetwork.IsMasterClient
                 ? levelData.InitialHostPosition
                 : levelData.InitialOthePlayerPosition;
 
-            GameObject _newPlayer = await _gameFactory.CreateHero(spawnPos);
+            GameObject _newPlayer =  _gameFactory.CreateHero(spawnPos);
 
             PhotonView nView = _newPlayer.GetComponentInChildren<PhotonView>();
-            nView.ViewID = heroId;
 
             HeroMove heroMove = _newPlayer.GetComponent<HeroMove>();
             _diContainerResolver._container.Inject(heroMove);
@@ -80,12 +77,9 @@ namespace CodeBase.Infrastructure.Network
 
             if (nView.IsMine)
             {
-                GameObject _cameraGO = await _gameFactory.CreateCamera(_cameraSpawnPoint);
+                GameObject _cameraGO =  _gameFactory.CreateCamera(_cameraSpawnPoint);
                 _cameraGO.transform.rotation = _cameraSpawnPoint.transform.rotation;
                 Camera _camera = _cameraGO.GetComponent<Camera>();
-
-                PhotonView photonViewCamera = _camera.GetComponent<PhotonView>();
-                photonViewCamera.ViewID = cameraId;
 
                 GameObject _playerUi = await _gameFactory.CreatePlayerUI();
 

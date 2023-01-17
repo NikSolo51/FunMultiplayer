@@ -13,7 +13,7 @@ using UnityEngine.AddressableAssets;
 
 namespace CodeBase.Infrastructure.Factory
 {
-    public class GameFactory : IGameFactory
+    public class GameFactory : IGameFactory, IPunPrefabPool
     {
         private IAssets _asset;
         private IStaticDataService _staticData;
@@ -26,6 +26,7 @@ namespace CodeBase.Infrastructure.Factory
             _asset = assets;
             _staticData = staticData;
             _saveLoadService = saveLoadService;
+            PhotonNetwork.PrefabPool = this;
         }
 
         public async Task WarmUp()
@@ -94,9 +95,11 @@ namespace CodeBase.Infrastructure.Factory
         }
 
 
-        public async Task<GameObject> CreateHero(Vector3 at)
+        public GameObject CreateHero(Vector3 at)
         {
-            GameObject HeroGameObject = await InstantiateRegisteredAsync(AssetsAdress.Hero, at);
+            //GameObject HeroGameObject = await InstantiateRegisteredAsync(AssetsAdress.Hero, at);
+            GameObject HeroGameObject = PhotonNetwork.Instantiate(AssetsAdress.Hero, at, Quaternion.identity);
+            Debug.Log(HeroGameObject);
             return HeroGameObject;
         }
 
@@ -114,13 +117,17 @@ namespace CodeBase.Infrastructure.Factory
 
         public async Task<GameObject> CreateCamera()
         {
-            GameObject cameraGameObject = await InstantiateAsync(AssetsAdress.Camera);
+            //GameObject cameraGameObject = await InstantiateAsync(AssetsAdress.Camera);
+            GameObject cameraGameObject =
+                PhotonNetwork.Instantiate(AssetsAdress.Camera, Vector3.zero, Quaternion.identity);
+            
             return cameraGameObject;
         }
 
-        public async Task<GameObject> CreateCamera(Transform cameraSpawnPoint)
+        public GameObject CreateCamera(Transform cameraSpawnPoint)
         {
-            GameObject cameraGameObject = await InstantiateAsync(AssetsAdress.Camera, cameraSpawnPoint.position);
+            GameObject cameraGameObject =
+                PhotonNetwork.Instantiate(AssetsAdress.Camera, cameraSpawnPoint.position, Quaternion.identity);
             return cameraGameObject;
         }
 
@@ -174,6 +181,13 @@ namespace CodeBase.Infrastructure.Factory
             return gameObject;
         }
 
+        private GameObject InstantiateRegistered(GameObject prefab, Vector3 at, Quaternion rotation)
+        {
+            GameObject gameObject = Object.Instantiate(prefab, at, rotation);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
         private GameObject InstantiateRegistered(GameObject prefab, Transform parent)
         {
             GameObject gameObject = Object.Instantiate(prefab, parent);
@@ -195,6 +209,18 @@ namespace CodeBase.Infrastructure.Factory
         {
             _saveLoadService.CleanUp();
             _asset.CleanUp();
+        }
+
+        public GameObject Instantiate(string prefabId, Vector3 position, Quaternion rotation)
+        {
+            GameObject prefab = _asset.LoadSynchronously<GameObject>(prefabId);
+            GameObject gameObject = InstantiateRegistered(prefab, position, rotation);
+            return gameObject;
+        }
+
+        public void Destroy(GameObject gameObject)
+        {
+            GameObject.Destroy(gameObject);
         }
     }
 }

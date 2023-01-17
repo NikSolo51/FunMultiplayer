@@ -10,10 +10,10 @@ namespace CodeBase.Infrastructure.Factory
 {
     public interface IGameFactory
     {
-        Task<GameObject> CreateHero(Vector3 at);
+        GameObject CreateHero(Vector3 at);
         Task<GameObject> CreateHud();
         Task<GameObject> CreateCamera();
-        Task<GameObject> CreateCamera(Transform parent);
+        GameObject CreateCamera(Transform parent);
         Task<ISoundService> CreateSoundManager(SoundManagerData soundManagerData);
         Task<GameObject> CreateUpdateManager();
 
