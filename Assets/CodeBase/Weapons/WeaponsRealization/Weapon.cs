@@ -30,22 +30,25 @@ namespace CodeBase.Weapons
        
         public override void Shoot()
         {
-            ShootNetwork();
+            int trailId = PhotonNetwork.AllocateViewID(false);
+            _photonView.RPC("ShootNetwork", RpcTarget.All,trailId);
         }
-
-        private void ShootNetwork()
+        [PunRPC]
+        private void ShootNetwork(int trailId)
         {
-            if (!_photonView)
+            if (!_photonView || !_photonView.IsMine)
                 return;
             
             if (_cantShoot || _currentAmmo <= 0)
                 return;
-            
+
             if (_lastShootTime + ShootDelay < Time.time)
             {
                 RaycastHit hitInfo = _hitScan.GetHit(_shootOrigin.forward);
 
                 TrailRenderer trail = Instantiate(_bulletTrail, _shootOrigin.transform.position, Quaternion.identity);
+                PhotonView trailPhotonView = trail.GetComponent<PhotonView>();
+                trailPhotonView.ViewID = trailId;
                 StartCoroutine(SpawnTrail(trail, hitInfo));
                 PhotonView enemyPhotonView = hitInfo.collider?.GetComponent<PhotonView>();
                 if (enemyPhotonView)

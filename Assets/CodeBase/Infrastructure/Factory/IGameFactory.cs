@@ -22,5 +22,6 @@ namespace CodeBase.Infrastructure.Factory
         Task WarmUp();
         void CleanUp();
         void CreatePlayerRoomButton(Player playerInfo, NetworkLauncher networkLauncher, Transform parent);
+        Task<GameObject> CreatePlayerUI();
     }
 }

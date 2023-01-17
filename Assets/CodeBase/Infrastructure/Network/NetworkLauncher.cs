@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CodeBase.Data;
 using CodeBase.Infrastructure.Factory;
+using CodeBase.Infrastructure.States;
 using CodeBase.Services.SaveLoad;
 using Photon.Pun;
 using Photon.Realtime;
@@ -23,12 +24,15 @@ namespace CodeBase.Infrastructure.Network
         [SerializeField] private UnityEvent OnJoinedRoomEvent;
         private IGameFactory _gameFactory;
         private ISaveLoadService _saveLoadService;
+        private GameStateMachine _gameStateMachine;
+        private  const string LevelName = "Level1";
 
         [Inject]
-        public void Construct(IGameFactory gameFactory,ISaveLoadService saveLoadService)
+        public void Construct(IGameFactory gameFactory,ISaveLoadService saveLoadService,GameStateMachine gameStateMachine)
         {
             _gameFactory = gameFactory;
             _saveLoadService = saveLoadService;
+            _gameStateMachine = gameStateMachine;
             _saveLoadService.Register(this);
         }
 
@@ -66,7 +70,9 @@ namespace CodeBase.Infrastructure.Network
 
         public void StartGame()
         {
-            PhotonNetwork.LoadLevel("Level1");
+           
+            PhotonNetwork.LoadLevel(LevelName);
+           // _gameStateMachine.Enter<LoadLevelState,string>(LevelName);
         }
 
         public void LeaveRoom()

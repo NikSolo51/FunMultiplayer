@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a2367527b6cca43b7c330e184d4a04, type: 3}
   m_Name: MainMenu
   m_EditorClassIdentifier: 
+  InitGameWorld: 0
   LevelKey: MainMenu
   SoundManagerData:
     _soundManagerType: 1

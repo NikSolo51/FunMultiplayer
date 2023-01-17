@@ -19,6 +19,8 @@ namespace CodeBase.PlayerScripts
         private ISaveLoadService _saveLoadService;
         private PhotonView photonView;
         private Camera _camera;
+        private Vector3 _startPos;
+        
         [Inject]
         public void Construct(IInputService inputService,
             ISaveLoadService saveLoadService, IUpdateService updateService)
@@ -27,6 +29,7 @@ namespace CodeBase.PlayerScripts
             _saveLoadService = saveLoadService;
             _updateService = updateService;
             _updateService.Register(this);
+            _startPos = transform.position;
         }
 
         private void OnDisable()
@@ -72,6 +75,11 @@ namespace CodeBase.PlayerScripts
         
         float AngleBetweenTwoPoints(Vector3 a, Vector3 b) {
             return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+        }
+
+        public void ResetPosition()
+        {
+            transform.position = _startPos;
         }
     }
 }

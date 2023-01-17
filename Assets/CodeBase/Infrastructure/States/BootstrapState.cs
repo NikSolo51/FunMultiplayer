@@ -2,7 +2,7 @@
 {
     public class BootstrapState : IState
     {
-        private const string Initial = "Initial";
+        private const string Initial = "MainMenu";
         private readonly GameStateMachine _stateMachine;
         private SceneLoader _sceneLoader;
         public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)

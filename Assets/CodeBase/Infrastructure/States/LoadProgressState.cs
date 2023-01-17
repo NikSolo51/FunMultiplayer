@@ -22,6 +22,7 @@ namespace CodeBase.Infrastructure.States
         {
             LoadProgressOrInitNew();
             _gameStateMachine.Enter<LoadLevelState, string>(Constants.InitialLevel);
+            //_gameStateMachine.Enter<MenuState>();
         }
 
         void IExitableState.Exit()

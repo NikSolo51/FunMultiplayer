@@ -63,6 +63,9 @@ namespace CodeBase.Infrastructure.States
         {
             LevelStaticData levelData = LevelStaticData();
             
+            if(!levelData.InitGameWorld)
+                return;
+            
             CreateUpdateManager();
             
             await CreateHero(levelData);

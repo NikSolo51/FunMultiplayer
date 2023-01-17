@@ -5,6 +5,7 @@ using CodeBase.Infrastructure.Factory;
 using CodeBase.PlayerScripts;
 using CodeBase.Services.StaticData;
 using CodeBase.Weapons;
+using CodeBase.Weapons.Reload;
 using Photon.Pun;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -22,6 +23,8 @@ namespace CodeBase.Infrastructure.Network
         private IGameFactory _gameFactory;
         private IStaticDataService _staticDataService;
         private FollowCamera _followCamera;
+        private HealthUIIndicator _healthUiIndicator;
+        private ReloadUIIndicator _reloadUiIndicator;
 
         [Inject]
         public void Construct(IGameFactory gameFactory, IStaticDataService staticDataService)
@@ -46,30 +49,33 @@ namespace CodeBase.Infrastructure.Network
                 PhotonView photonView = this.GetComponent<PhotonView>();
                 int heroId = PhotonNetwork.AllocateViewID(false);
                 int cameraId = PhotonNetwork.AllocateViewID(false);
-                
-                photonView.RPC("Initialize", RpcTarget.AllBuffered, heroId, cameraId);
+                int weaponId = PhotonNetwork.AllocateViewID(false);
+
+                photonView.RPC("Initialize", RpcTarget.AllBuffered, heroId, cameraId,weaponId);
             }
         }
 
         [PunRPC]
-        private async Task<GameObject> Initialize(int heroId, int cameraId)
+        private async void Initialize(int heroId, int cameraId,int weaponId)
         {
             LevelStaticData levelData = _staticDataService.ForLevel(LevelName);
+
             Vector3 spawnPos = PhotonNetwork.IsMasterClient
                 ? levelData.InitialHostPosition
                 : levelData.InitialOthePlayerPosition;
-            GameObject newPlayer = await _gameFactory.CreateHero(spawnPos);
 
-            PhotonView nView = newPlayer.GetComponentInChildren<PhotonView>();
+            GameObject _newPlayer = await _gameFactory.CreateHero(spawnPos);
+
+            PhotonView nView = _newPlayer.GetComponentInChildren<PhotonView>();
             nView.ViewID = heroId;
 
-            HeroMove heroMove = newPlayer.GetComponent<HeroMove>();
+            HeroMove heroMove = _newPlayer.GetComponent<HeroMove>();
             _diContainerResolver._container.Inject(heroMove);
 
-            PlayerGun playerGun = newPlayer.GetComponent<PlayerGun>();
+            PlayerGun playerGun = _newPlayer.GetComponent<PlayerGun>();
             _diContainerResolver._container.Inject(playerGun);
 
-            WeaponInitializer weaponInitializer = newPlayer.GetComponent<WeaponInitializer>();
+            WeaponInitializer weaponInitializer = _newPlayer.GetComponent<WeaponInitializer>();
             _diContainerResolver._container.Inject(weaponInitializer);
 
             if (nView.IsMine)
@@ -81,13 +87,21 @@ namespace CodeBase.Infrastructure.Network
                 PhotonView photonViewCamera = _camera.GetComponent<PhotonView>();
                 photonViewCamera.ViewID = cameraId;
 
+                GameObject _playerUi = await _gameFactory.CreatePlayerUI();
+
+                _healthUiIndicator = _playerUi.GetComponentInChildren<HealthUIIndicator>();
+                _reloadUiIndicator = _playerUi.GetComponentInChildren<ReloadUIIndicator>();
+                
+                _newPlayer.GetComponent<IHealth>().OnHpPercent += _healthUiIndicator.AnimateIndicator;
+              
+                weaponInitializer._reloadIndicator = _reloadUiIndicator;
                 _followCamera = _camera.GetComponent<FollowCamera>();
                 _diContainerResolver._container.Inject(_followCamera);
-                _followCamera.Setup(newPlayer);
+                
+                _followCamera.Setup(_newPlayer);
                 heroMove.Setup(_camera);
             }
-
-            return newPlayer;
+            weaponInitializer.Setup();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using CodeBase.Weapons.Reload;
+using CodeBase.Weapons;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,9 +7,10 @@ namespace CodeBase.PlayerScripts
 {
     public class PlayerHealth : MonoBehaviour, IHealth
     {
-        [SerializeField] private UIIndicator _healthBar;
         [SerializeField] private PhotonView _photonView;
         [SerializeField] private float MaxHp = 100;
+        [SerializeField] private PlayerDeath _playerDeath;
+        public event Action<float> OnHpPercent;
         private float CurrentHP;
 
         public void ResetHP() => CurrentHP = MaxHp;
@@ -37,12 +38,14 @@ namespace CodeBase.PlayerScripts
             if (!_photonView.IsMine)
                 return;
 
-            if (Current <= 0)
-                return;
-
             Current -= damage;
-            
-            _healthBar.AnimateIndicator(Current/MaxHp);
+            OnHpPercent?.Invoke(Current / MaxHp);
+            if (Current <= 0)
+            {
+                _playerDeath.Die();
+                ResetHP();
+                OnHpPercent?.Invoke(Current / MaxHp);
+            }
         }
     }
 }

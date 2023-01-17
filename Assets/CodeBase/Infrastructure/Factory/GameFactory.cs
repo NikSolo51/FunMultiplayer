@@ -9,6 +9,7 @@ using CodeBase.Weapons;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CodeBase.Infrastructure.Factory
 {
@@ -33,6 +34,7 @@ namespace CodeBase.Infrastructure.Factory
             await _asset.Load<GameObject>(AssetsAdress.RoomButtonUI);
             await _asset.Load<GameObject>(AssetsAdress.PlayerButtonUI);
             await _asset.Load<GameObject>(AssetsAdress.UpdateManager);
+            await _asset.Load<GameObject>(AssetsAdress.PlayerUI);
         }
 
         public async Task<GameObject> CreateHud()
@@ -44,9 +46,9 @@ namespace CodeBase.Infrastructure.Factory
         public async Task<GameObject> CreateWeapon(WeaponType weaponType, Transform parent)
         {
             WeaponStaticData weaponStaticData = _staticData.ForWeapon(weaponType);
-         
+
             GameObject weaponReference = await _asset.Load<GameObject>(weaponStaticData.WeaponPrefabReference);
-            GameObject weaponGO = InstantiateRegistered(weaponReference,parent);
+            GameObject weaponGO = InstantiateRegistered(weaponReference, parent);
             PlayerWeapon playerWeapon = weaponGO.GetComponentInChildren<PlayerWeapon>();
             playerWeapon.Damage = weaponStaticData.Damage;
             playerWeapon.MagazineCount = weaponStaticData.MagazineCount;
@@ -63,7 +65,7 @@ namespace CodeBase.Infrastructure.Factory
             RoomListItem roomListItem = roomButton.GetComponent<RoomListItem>();
             roomListItem.Constructor(roomInfo, networkLauncher);
         }
-        
+
         public async void CreatePlayerRoomButton(Player playerInfo, NetworkLauncher networkLauncher, Transform parent)
         {
             GameObject roomButton = await InstantiateRegisteredAsync(AssetsAdress.PlayerButtonUI, parent);
@@ -71,6 +73,7 @@ namespace CodeBase.Infrastructure.Factory
             PlayerListItem playerListItem = roomButton.GetComponent<PlayerListItem>();
             playerListItem.Constructor(playerInfo);
         }
+
         public async Task<ISoundService> CreateSoundManager(SoundManagerData soundManagerData)
         {
             SoundManagerStaticData soundManagerManagerStaticData =
@@ -96,21 +99,28 @@ namespace CodeBase.Infrastructure.Factory
             GameObject HeroGameObject = await InstantiateRegisteredAsync(AssetsAdress.Hero, at);
             return HeroGameObject;
         }
-        
+
+        public async Task<GameObject> CreatePlayerUI()
+        {
+            GameObject playerUI = await InstantiateRegisteredAsync(AssetsAdress.PlayerUI);
+            return playerUI;
+        }
+
         public async Task<GameObject> CreateUpdateManager()
         {
             GameObject updateManager = await InstantiateRegisteredAsync(AssetsAdress.UpdateManager);
             return updateManager;
         }
-        
+
         public async Task<GameObject> CreateCamera()
         {
             GameObject cameraGameObject = await InstantiateAsync(AssetsAdress.Camera);
             return cameraGameObject;
         }
+
         public async Task<GameObject> CreateCamera(Transform cameraSpawnPoint)
         {
-            GameObject cameraGameObject = await InstantiateAsync(AssetsAdress.Camera,cameraSpawnPoint.position);
+            GameObject cameraGameObject = await InstantiateAsync(AssetsAdress.Camera, cameraSpawnPoint.position);
             return cameraGameObject;
         }
 
@@ -125,7 +135,7 @@ namespace CodeBase.Infrastructure.Factory
         private async Task<GameObject> InstantiateRegisteredAsync(string prefabPath, Vector3 at)
         {
             GameObject gameObject = await _asset.Instantiate(prefabPath, at: at);
-            
+
             RegisterProgressWatchers(gameObject);
             return gameObject;
         }
@@ -156,17 +166,17 @@ namespace CodeBase.Infrastructure.Factory
             RegisterProgressWatchers(gameObject);
             return gameObject;
         }
-        
+
         private GameObject InstantiateRegistered(GameObject prefab, Vector3 at, Transform parent)
         {
-            GameObject gameObject = Object.Instantiate(prefab, at,Quaternion.identity,parent);
+            GameObject gameObject = Object.Instantiate(prefab, at, Quaternion.identity, parent);
             RegisterProgressWatchers(gameObject);
             return gameObject;
         }
-        
+
         private GameObject InstantiateRegistered(GameObject prefab, Transform parent)
         {
-            GameObject gameObject = Object.Instantiate(prefab,parent);
+            GameObject gameObject = Object.Instantiate(prefab, parent);
             RegisterProgressWatchers(gameObject);
             return gameObject;
         }
