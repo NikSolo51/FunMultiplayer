@@ -27,26 +27,33 @@ namespace CodeBase.Weapons
         {
             _currentAmmo = MagazineCount;
         }
-       
+
         public override void Shoot()
         {
             int trailId = PhotonNetwork.AllocateViewID(false);
-            _photonView.RPC("ShootNetwork", RpcTarget.All,trailId);
+            _photonView.RPC("ShootNetwork", RpcTarget.All, trailId);
         }
+
         [PunRPC]
         private void ShootNetwork(int trailId)
         {
-            if (!_photonView || !_photonView.IsMine)
+            if (!_photonView)
                 return;
             
-            if (_cantShoot || _currentAmmo <= 0)
-                return;
+            if (_photonView.IsMine)
+            {
+                if (_cantShoot || _currentAmmo <= 0)
+                    return;
+            }
 
+            
             if (_lastShootTime + ShootDelay < Time.time)
             {
+                
                 RaycastHit hitInfo = _hitScan.GetHit(_shootOrigin.forward);
-
-                TrailRenderer trail = Instantiate(_bulletTrail, _shootOrigin.transform.position, Quaternion.identity);
+                
+                TrailRenderer trail = Instantiate(_bulletTrail, _shootOrigin.transform.position,
+                    Quaternion.identity);
                 PhotonView trailPhotonView = trail.GetComponent<PhotonView>();
                 trailPhotonView.ViewID = trailId;
                 StartCoroutine(SpawnTrail(trail, hitInfo));
@@ -93,6 +100,7 @@ namespace CodeBase.Weapons
                 time += Time.deltaTime / trail.time;
                 yield return null;
             }
+
             trail.transform.position = hitInfo.point;
 
             Destroy(trail.gameObject, trail.time);
@@ -106,7 +114,7 @@ namespace CodeBase.Weapons
             while (_time < ReloadDelay)
             {
                 _time += Time.deltaTime;
-                 OnReloadPercent?.Invoke(_time / ReloadDelay);
+                OnReloadPercent?.Invoke(_time / ReloadDelay);
                 yield return null;
             }
 

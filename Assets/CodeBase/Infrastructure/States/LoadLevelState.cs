@@ -5,6 +5,7 @@ using CodeBase.PlayerScripts;
 using CodeBase.Services.Audio;
 using CodeBase.Services.SaveLoad;
 using CodeBase.Services.StaticData;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -13,10 +14,10 @@ namespace CodeBase.Infrastructure.States
 {
     public class LoadLevelState : IPayLoadedState<string>
     {
-        private  GameStateMachine _stateMachine;
-        private  SceneLoader _sceneLoader;
-        private  LoadingCurtain _curtain;
-        private  IGameFactory _gameFactory;
+        private GameStateMachine _stateMachine;
+        private SceneLoader _sceneLoader;
+        private LoadingCurtain _curtain;
+        private IGameFactory _gameFactory;
         private IStaticDataService _staticData;
         public ISaveLoadService _saveLoadService;
         private DiContainer _container;
@@ -27,7 +28,7 @@ namespace CodeBase.Infrastructure.States
             LoadingCurtain curtain,
             IGameFactory gameFactory,
             IStaticDataService staticData,
-            ISaveLoadService saveLoadService,DiContainer container)
+            ISaveLoadService saveLoadService, DiContainer container)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
@@ -62,15 +63,12 @@ namespace CodeBase.Infrastructure.States
         private async Task InitGameWorld()
         {
             LevelStaticData levelData = LevelStaticData();
-            
-            if(!levelData.InitGameWorld)
+
+            if (!levelData)
                 return;
-            
-            CreateUpdateManager();
-            
-            await CreateHero(levelData);
-            await CreateHud();
-            await CreateAudio(levelData);
+            if (!levelData.InitGameWorld)
+                return;
+
         }
 
         private async void CreateUpdateManager()

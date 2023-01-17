@@ -12,5 +12,6 @@ namespace CodeBase.Infrastructure.AssetManagement
         void CleanUp();
         Task<T> Load<T>(string adress) where T : class;
         Task<GameObject> Instantiate(string adress, Transform parent);
+        T LoadSynchronously<T>(string adress) where T : class;
     }
 }

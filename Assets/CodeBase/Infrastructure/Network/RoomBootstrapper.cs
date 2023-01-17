@@ -100,8 +100,8 @@ namespace CodeBase.Infrastructure.Network
                 
                 _followCamera.Setup(_newPlayer);
                 heroMove.Setup(_camera);
+                weaponInitializer.Setup(weaponId);
             }
-            weaponInitializer.Setup();
         }
     }
 }

@@ -9,7 +9,7 @@ using Zenject;
 
 namespace CodeBase.Weapons
 {
-    public class WeaponInitializer : MonoBehaviour
+    public class WeaponInitializer : MonoBehaviourPunCallbacks
     {
         [SerializeField] private PhotonView _photonView;
         [HideInInspector] public UIIndicator _reloadIndicator;
@@ -18,6 +18,8 @@ namespace CodeBase.Weapons
         private IGameFactory _gameFactory;
         private PlayerWeapon playerWeapon;
         private bool already;
+        private int weaponId;
+
         [Inject]
         public void Constructor(IPlayerWeaponsInventory playerWeaponsInventory, IGameFactory gameFactory)
         {
@@ -25,27 +27,31 @@ namespace CodeBase.Weapons
             _gameFactory = gameFactory;
         }
 
-        public void Setup()
+        public void Setup(int weaponId)
         {
-            int weaponId = PhotonNetwork.AllocateViewID(false);
             _photonView.RPC("InitializeWeapon", RpcTarget.All, weaponId);
         }
-    
+
         [PunRPC]
         private async void InitializeWeapon(int weaponId)
         {
-            GameObject weapon = await _gameFactory.CreateWeapon(_playerWeaponsInventory.WeaponType,
-                _weaponPosition);
-         
             if (_photonView.IsMine)
             {
-                playerWeapon = weapon.GetComponent<PlayerWeapon>();
-                PhotonView weaponView = playerWeapon.GetComponent<PhotonView>();
-                weaponView.ViewID = weaponId;
+                if (already)
+                    return;
+            }
 
+            GameObject weapon = await _gameFactory.CreateWeapon(_playerWeaponsInventory.WeaponType,
+                _weaponPosition);
+            playerWeapon = weapon.GetComponent<PlayerWeapon>();
+            PhotonView weaponView = playerWeapon.GetComponent<PhotonView>();
+            weaponView.ViewID = weaponId;
 
-                playerWeapon.OnReloadPercent += _reloadIndicator.AnimateIndicator;
+            if (_photonView.IsMine)
+            {
+                //playerWeapon.OnReloadPercent += _reloadIndicator.AnimateIndicator;
                 _playerWeaponsInventory.PlayerWeapon = playerWeapon;
+                
                 already = true;
             }
         }
@@ -57,7 +63,7 @@ namespace CodeBase.Weapons
 
         private void OnDestroy()
         {
-            if (playerWeapon)
+            if (playerWeapon && _reloadIndicator)
                 playerWeapon.OnReloadPercent -= _reloadIndicator.AnimateIndicator;
         }
     }

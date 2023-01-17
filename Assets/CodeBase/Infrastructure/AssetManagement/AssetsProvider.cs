@@ -42,6 +42,17 @@ namespace CodeBase.Infrastructure.AssetManagement
             return await RunWithCacheOnComplete(
                 Addressables.LoadAssetAsync<T>(adress), cacheKey: adress);
         }
+        
+        public T LoadSynchronously<T>(string adress) where T : class
+        {
+            if (_completedCache.TryGetValue(adress, out AsyncOperationHandle completedHandle))
+            {
+                if (completedHandle.IsValid())
+                    return completedHandle.Result as T;
+            }
+
+            return Addressables.LoadAssetAsync<T>(adress).WaitForCompletion();
+        }
 
         public Task<GameObject> Instantiate(string adress, Vector3 at)
         {

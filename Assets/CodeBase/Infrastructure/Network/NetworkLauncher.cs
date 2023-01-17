@@ -70,9 +70,7 @@ namespace CodeBase.Infrastructure.Network
 
         public void StartGame()
         {
-           
-            PhotonNetwork.LoadLevel(LevelName);
-           // _gameStateMachine.Enter<LoadLevelState,string>(LevelName);
+           _gameStateMachine.Enter<LoadLevelState,string>(LevelName);
         }
 
         public void LeaveRoom()

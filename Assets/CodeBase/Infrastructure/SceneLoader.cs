@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,13 +28,9 @@ namespace CodeBase.Infrastructure
                 yield break;
             }
 
-            AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(nextScene);
-
-            while (!waitNextScene.isDone)
-            {
-                yield return null;
-            }
-
+            //AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(nextScene);
+            PhotonNetwork.LoadLevel(nextScene);
+            
             onLoaded?.Invoke();
         }
     }
