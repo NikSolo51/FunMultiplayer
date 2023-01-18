@@ -63,5 +63,10 @@ namespace CodeBase.Services.StaticData
                 ? staticData
                 : null;
         }
+        
+        public WeaponStaticData[] AllWeapons()
+        {
+            return _weapons.Values.ToArray();
+        }
     }
 }

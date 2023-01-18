@@ -1,5 +1,4 @@
 using CodeBase.Services.Input;
-using CodeBase.Services.SaveLoad;
 using CodeBase.Services.Update;
 using Photon.Pun;
 using Sirenix.OdinInspector;
@@ -15,17 +14,17 @@ namespace CodeBase.PlayerScripts
 
         private IInputService _inputService;
         private IUpdateService _updateService;
-        private ISaveLoadService _saveLoadService;
         private PhotonView photonView;
         private Camera _camera;
         private Vector3 _startPos;
+        private Vector3 _localRight;
+        private Vector3 _localForward;
+        private float _dotDirection;
 
         [Inject]
-        public void Construct(IInputService inputService,
-            ISaveLoadService saveLoadService, IUpdateService updateService)
+        public void Construct(IInputService inputService, IUpdateService updateService)
         {
             _inputService = inputService;
-            _saveLoadService = saveLoadService;
             _updateService = updateService;
             photonView = GetComponent<PhotonView>();
             if (photonView.IsMine)
@@ -37,16 +36,22 @@ namespace CodeBase.PlayerScripts
 
         private void OnDisable()
         {
-            if (_updateService != null && _saveLoadService != null)
+            if (_updateService != null)
             {
                 _updateService.Unregister(this);
-                _saveLoadService.SaveProgress();
             }
         }
 
         public void Setup(Camera camera)
         {
             _camera = camera;
+            _localRight = _camera.transform.right;
+            _localRight.Normalize();
+            _localForward = _camera.transform.up;
+            _localForward.Normalize();
+            Vector3 direction = transform.position - Vector3.zero;
+            direction.Normalize();
+            _dotDirection = Vector3.Dot(transform.forward, direction);
         }
 
         public void UpdateTick()
@@ -58,21 +63,37 @@ namespace CodeBase.PlayerScripts
 
             Vector3 movementAxis = Vector3.zero;
             Vector3 movementVector = Vector3.zero;
-            Vector2 positionOnScreen = _camera.WorldToViewportPoint(transform.position);
-            Vector2 mouseOnScreen = _camera.ScreenToViewportPoint(Input.mousePosition);
-            float angle = AngleBetweenTwoPoints(positionOnScreen, mouseOnScreen);
+
+
             if (_inputService.Axis.sqrMagnitude > Constants.Epsilon)
             {
                 movementAxis = _inputService.Axis;
                 movementAxis.z = movementAxis.y;
                 movementAxis.y = 0;
-                movementVector += transform.forward * movementAxis.z;
-                movementVector += transform.right * movementAxis.x;
+                movementVector += _localForward * movementAxis.z;
+                movementVector += _localRight * movementAxis.x;
                 movementVector.Normalize();
             }
 
-            transform.rotation = Quaternion.Euler(new Vector3(0f, -angle - 90, 0f));
             _characterController.Move(_movementSpeed * movementVector * Time.deltaTime);
+
+            Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
+
+            Vector2 mouseOnScreen = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+
+            float angle = AngleBetweenTwoPoints(positionOnScreen, mouseOnScreen);
+
+            Debug.Log(_dotDirection);
+            if (_dotDirection > 0.9)
+            {
+                angle = -angle + 90;
+            }
+            else
+            {
+                angle = -angle - 90;
+            }
+
+            transform.rotation = Quaternion.Euler(new Vector3(0f, angle, 0f));
         }
 
         float AngleBetweenTwoPoints(Vector3 a, Vector3 b)

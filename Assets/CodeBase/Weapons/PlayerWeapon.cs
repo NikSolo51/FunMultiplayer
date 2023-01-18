@@ -1,5 +1,6 @@
 ﻿using System;
 using CodeBase.Infrastructure.Factory;
+using CodeBase.Services.StaticData;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,7 +8,6 @@ namespace CodeBase.Weapons
 {
     public abstract class PlayerWeapon : MonoBehaviour, IWeapon
     {
-
         public bool NotEmpty { get; set; }
         public int MagazineCount { get; set; }
         public float Damage { get; set; }
@@ -15,13 +15,13 @@ namespace CodeBase.Weapons
         public float ReloadDelay { get; set; }
 
         public WeaponType WeaponType { get; set; }
-    
+        public BulletType BulletType { get; set; }
+
         public abstract void Shoot();
-        
+
 
         public abstract event Action<float> OnReloadPercent;
 
         public abstract void Construct(IGameFactory gameFactory);
-
     }
 }

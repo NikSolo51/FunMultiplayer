@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CodeBase.Data;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.States;
@@ -10,6 +11,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace CodeBase.Infrastructure.Network
 {
@@ -145,6 +147,11 @@ namespace CodeBase.Infrastructure.Network
         public void UpdateProgress(PlayerProgress progress)
         {
             progress._nickName = PhotonNetwork.NickName;
+        }
+
+        private void OnApplicationQuit()
+        {
+            _saveLoadService.SaveProgress();
         }
     }
 }

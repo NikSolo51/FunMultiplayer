@@ -1,4 +1,6 @@
-﻿namespace CodeBase.Weapons
+﻿using CodeBase.Services.StaticData;
+
+namespace CodeBase.Weapons
 {
     public interface IWeapon
     {
@@ -7,6 +9,7 @@
         public float Damage { get; set; }
         public float ShootDelay { get; set; }
         public WeaponType WeaponType { get; }
+        public BulletType BulletType { get; }
         public void Shoot();
     }
 }

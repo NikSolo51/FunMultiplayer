@@ -24,11 +24,10 @@ namespace CodeBase.Weapons
         {
             _playerWeaponsInventory = playerWeaponsInventory;
             _gameFactory = gameFactory;
-            InitializeWeapon();
         }
 
 
-        private async void InitializeWeapon()
+        public async void InitializeWeapon()
         {
             GameObject weapon = await _gameFactory.CreateWeapon(_playerWeaponsInventory.WeaponType,
                 _weaponPosition);
@@ -37,8 +36,7 @@ namespace CodeBase.Weapons
             weapon.transform.SetParent(_weaponPosition);
             playerWeapon = weapon.GetComponent<PlayerWeapon>();
             playerWeapon.Construct(_gameFactory);
-            
-            //playerWeapon.OnReloadPercent += _reloadIndicator.AnimateIndicator;
+            playerWeapon.OnReloadPercent += _reloadIndicator.AnimateIndicator;
             _playerWeaponsInventory.PlayerWeapon = playerWeapon;
         }
 

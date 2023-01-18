@@ -1,6 +1,7 @@
 ﻿using CodeBase.Data;
 using CodeBase.Services.PersistentProgress;
 using CodeBase.Services.SaveLoad;
+using UnityEngine;
 
 namespace CodeBase.Infrastructure.States
 {
@@ -22,7 +23,6 @@ namespace CodeBase.Infrastructure.States
         {
             LoadProgressOrInitNew();
             _gameStateMachine.Enter<LoadLevelState, string>(Constants.InitialLevel);
-            //_gameStateMachine.Enter<MenuState>();
         }
 
         void IExitableState.Exit()

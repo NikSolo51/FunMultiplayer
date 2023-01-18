@@ -8,11 +8,11 @@ namespace CodeBase.Services.StaticData
     public class WeaponStaticData : ScriptableObject
     {
         public WeaponType _weaponType;
-        public AssetReferenceGameObject WeaponPrefabReference;
-        public AssetReferenceGameObject BulletPrefabReference;
+        public BulletType _bulletType;
         public int MagazineCount;
         public float Damage;
         public float ShootDelay = 0.2f;
         public float ReloadDelay = 1;
     }
 }
+

@@ -10,5 +10,6 @@ namespace CodeBase.Services.StaticData
 
         SoundManagerStaticData ForSoundManager(SoundManagerType soundManagerType);
         WeaponStaticData ForWeapon(WeaponType weaponType);
+        WeaponStaticData[] AllWeapons();
     }
 }

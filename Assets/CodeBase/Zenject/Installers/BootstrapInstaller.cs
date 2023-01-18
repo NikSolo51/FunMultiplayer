@@ -24,13 +24,15 @@ public class BootstrapInstaller : MonoInstaller
         RegisterAssetProvider();
 
         Container.Bind<IRandomService>().To<RandomService>().AsSingle().NonLazy();
-        
-        Container.Bind<IPlayerWeaponsInventory>().To<PlayerWeaponsInventory>().AsSingle().NonLazy();
-
-        Container.Bind<IPersistentProgressService>().To<PersistentProgressService>().AsSingle().NonLazy();
 
         Container.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle().NonLazy();
+        Container.Bind<IPersistentProgressService>().To<PersistentProgressService>().AsSingle().NonLazy();
+        Container.Bind<IPlayerWeaponsInventory>().To<PlayerWeaponsInventory>().AsSingle().NonLazy();
         
+        IPlayerWeaponsInventory playerWeaponsInventory = Container.Resolve<IPlayerWeaponsInventory>();
+        Container.Resolve<ISaveLoadService>().Register(playerWeaponsInventory);
+
+
         Container.Bind<IUpdateService>().To<UpdateManager>().AsSingle().NonLazy();
         Container.Bind<IGameFactory>().To<GameFactory>().AsSingle().WithArguments(
             Container.Resolve<IAssets>(),

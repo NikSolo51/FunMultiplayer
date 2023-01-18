@@ -23,6 +23,14 @@ namespace CodeBase.CameraLogic
         public void Setup(GameObject player)
         {
             _player = player;
+            Vector3 direction =  _player.transform.position - Vector3.zero;
+            direction.Normalize();
+            float dotDirection = Vector3.Dot(transform.up, direction);
+            if (dotDirection > 0.9f)
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(transform.eulerAngles.x,
+                    -180,transform.eulerAngles.z));
+            }
         }
 
         private void OnDestroy()
@@ -38,6 +46,11 @@ namespace CodeBase.CameraLogic
             Vector3 targetPosition = _player.transform.position + _offset;
             Vector3 smoothFollow = Vector3.Lerp(transform.position,targetPosition,_smoothSpeed);
             transform.position = new Vector3(smoothFollow.x,transform.position.y,smoothFollow.z);
+        }
+        
+        float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+        {
+            return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
         }
     }
 }

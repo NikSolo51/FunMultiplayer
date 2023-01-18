@@ -4,6 +4,7 @@
     {
         public const string Hero = "Hero";
         public const string PlayerUI = "PlayerUI";
+        public const string WeaponUI = "WeaponUI";
         public const string RoomButtonUI = "RoomButtonUI";
         public const string PlayerButtonUI = "PlayerButtonUI";
         public const string Camera = "Camera";

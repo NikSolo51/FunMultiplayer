@@ -2,6 +2,7 @@
 using CodeBase.Infrastructure.Network;
 using CodeBase.Services.Audio;
 using CodeBase.Services.Audio.SoundManager;
+using CodeBase.Services.StaticData;
 using CodeBase.Weapons;
 using Photon.Realtime;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace CodeBase.Infrastructure.Factory
     {
         GameObject CreateHero(Vector3 at);
         Task<GameObject> CreateHud();
+        Task<GameObject> CreateWeaponUI(WeaponStaticData weaponStaticData,Transform parent);
         Task<GameObject> CreateCamera();
         Task<GameObject> CreateCamera(Transform parent);
         Task<ISoundService> CreateSoundManager(SoundManagerData soundManagerData);
@@ -24,5 +26,6 @@ namespace CodeBase.Infrastructure.Factory
         void CreatePlayerRoomButton(Player playerInfo, NetworkLauncher networkLauncher, Transform parent);
         Task<GameObject> CreatePlayerUI();
         GameObject CreateGameObject(string key,Vector3 pos,Quaternion rotation);
+        GameObject CreateBullet(BulletType bulletType,Vector3 pos,Quaternion rotation);
     }
 }

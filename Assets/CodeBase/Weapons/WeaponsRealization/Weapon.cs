@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using CodeBase.Infrastructure.Factory;
+using CodeBase.Services.StaticData;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -17,7 +18,6 @@ namespace CodeBase.Weapons
         [SerializeField] private Vector3 _bulletSpreadVariance = new Vector3(0.1f, 0.1f, 0.1f);
         [SerializeField] private ParticleSystem _shootingSystem;
         [SerializeField] private Transform _shootOrigin;
-        [SerializeField] private TrailRenderer _bulletTrail;
         [SerializeField] private PhotonView _photonView;
         private IGameFactory _gameFactory;
         private int _currentAmmo;
@@ -33,18 +33,13 @@ namespace CodeBase.Weapons
         private void Start()
         {
             _currentAmmo = MagazineCount;
+            _shootingSystem.Stop();
         }
 
 
         public override void Shoot()
         {
-            int trailId = PhotonNetwork.AllocateViewID(false);
             //  _photonView.RPC("ShootNetwork", RpcTarget.All, trailId);
-            ShootNetwork();
-        }
-
-        private void ShootNetwork()
-        {
             if (!_photonView)
                 return;
 
@@ -56,7 +51,7 @@ namespace CodeBase.Weapons
             {
                 RaycastHit hitInfo = _hitScan.GetHit(_shootOrigin.forward);
 
-                GameObject trailGO = _gameFactory.CreateGameObject("Trail", _shootOrigin.transform.position,
+                GameObject trailGO = _gameFactory.CreateBullet(BulletType, _shootOrigin.transform.position,
                     Quaternion.identity);
                 TrailRenderer trail = trailGO.GetComponent<TrailRenderer>();
                 
@@ -107,7 +102,7 @@ namespace CodeBase.Weapons
             }
 
             trail.transform.position = hitInfo.point;
-
+            
             Destroy(trail.gameObject, trail.time);
         }
 

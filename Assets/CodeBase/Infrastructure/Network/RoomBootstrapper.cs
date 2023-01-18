@@ -26,7 +26,6 @@ namespace CodeBase.Infrastructure.Network
         private HealthUIIndicator _healthUiIndicator;
         private ReloadUIIndicator _reloadUiIndicator;
         private GameObject _cameraGo;
-        private PhotonView _roomPhotonView;
 
         [Inject]
         public void Construct(IGameFactory gameFactory, IStaticDataService staticDataService)
@@ -48,14 +47,13 @@ namespace CodeBase.Infrastructure.Network
         {
             if (scene.name == LevelName)
             {
-                _roomPhotonView = this.GetComponent<PhotonView>();
                 int weaponId = PhotonNetwork.AllocateViewID(false);
-                Initialize(weaponId);
+                Initialize();
             }
         }
 
 
-        private async void Initialize(int weaponId)
+        private async void Initialize()
         {
             LevelStaticData levelData = _staticDataService.ForLevel(LevelName);
 
@@ -88,6 +86,8 @@ namespace CodeBase.Infrastructure.Network
             _newPlayer.GetComponent<IHealth>().OnHpPercent += _healthUiIndicator.AnimateIndicator;
 
             weaponInitializer._reloadIndicator = _reloadUiIndicator;
+            
+            weaponInitializer.InitializeWeapon();
             _followCamera.Setup(_newPlayer);
             heroMove.Setup(_camera);
         }

@@ -4,7 +4,7 @@
     {
         Knife,
         Pistol,
-        Ak74,
+        AK74,
         Shotgun
     }
 }
