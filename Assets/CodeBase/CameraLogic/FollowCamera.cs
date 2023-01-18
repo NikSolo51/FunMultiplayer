@@ -12,13 +12,6 @@ namespace CodeBase.CameraLogic
         [SerializeField]private float _smoothSpeed= 0.3f;
         private GameObject _player;
         private IUpdateService _updateService;
-        private PhotonView _photonView;
-
-        private void Start()
-        {
-            _photonView = GetComponent<PhotonView>();
-        
-        }
 
         [Inject]
         public void Construct(IUpdateService updateService)
@@ -39,7 +32,7 @@ namespace CodeBase.CameraLogic
 
         public void LateUpdateTick()
         {
-            if (!_player || !_photonView.IsMine)
+            if (!_player)
                 return;
          
             Vector3 targetPosition = _player.transform.position + _offset;

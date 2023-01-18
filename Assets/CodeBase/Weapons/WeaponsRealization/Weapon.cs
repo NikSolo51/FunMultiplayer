@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
+using CodeBase.Infrastructure.Factory;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace CodeBase.Weapons
@@ -17,46 +19,49 @@ namespace CodeBase.Weapons
         [SerializeField] private Transform _shootOrigin;
         [SerializeField] private TrailRenderer _bulletTrail;
         [SerializeField] private PhotonView _photonView;
+        private IGameFactory _gameFactory;
         private int _currentAmmo;
         private float _lastShootTime;
         private bool _cantShoot;
         public override event Action<float> OnReloadPercent;
 
+        public override void Construct(IGameFactory gameFactory)
+        {
+            _gameFactory = gameFactory;
+        }
 
         private void Start()
         {
             _currentAmmo = MagazineCount;
         }
 
+
         public override void Shoot()
         {
             int trailId = PhotonNetwork.AllocateViewID(false);
-            _photonView.RPC("ShootNetwork", RpcTarget.All, trailId);
+            //  _photonView.RPC("ShootNetwork", RpcTarget.All, trailId);
+            ShootNetwork();
         }
 
-        [PunRPC]
-        private void ShootNetwork(int trailId)
+        private void ShootNetwork()
         {
             if (!_photonView)
                 return;
-            
-            if (_photonView.IsMine)
-            {
-                if (_cantShoot || _currentAmmo <= 0)
-                    return;
-            }
 
-            
+
+            if (_cantShoot || _currentAmmo <= 0)
+                return;
+
             if (_lastShootTime + ShootDelay < Time.time)
             {
-                
                 RaycastHit hitInfo = _hitScan.GetHit(_shootOrigin.forward);
-                
-                TrailRenderer trail = Instantiate(_bulletTrail, _shootOrigin.transform.position,
+
+                GameObject trailGO = _gameFactory.CreateGameObject("Trail", _shootOrigin.transform.position,
                     Quaternion.identity);
-                PhotonView trailPhotonView = trail.GetComponent<PhotonView>();
-                trailPhotonView.ViewID = trailId;
+                TrailRenderer trail = trailGO.GetComponent<TrailRenderer>();
+                
                 StartCoroutine(SpawnTrail(trail, hitInfo));
+                
                 PhotonView enemyPhotonView = hitInfo.collider?.GetComponent<PhotonView>();
                 if (enemyPhotonView)
                     enemyPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, Damage);

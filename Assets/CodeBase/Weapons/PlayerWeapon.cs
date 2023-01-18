@@ -1,4 +1,5 @@
 ﻿using System;
+using CodeBase.Infrastructure.Factory;
 using Photon.Pun;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ namespace CodeBase.Weapons
         
 
         public abstract event Action<float> OnReloadPercent;
+
+        public abstract void Construct(IGameFactory gameFactory);
 
     }
 }

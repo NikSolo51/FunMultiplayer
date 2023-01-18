@@ -10,22 +10,28 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Zenject;
 
 namespace CodeBase.Infrastructure.Factory
 {
-    public class GameFactory : IGameFactory
+    public class GameFactory : IGameFactory, IPunPrefabPool
     {
         private IAssets _asset;
         private IStaticDataService _staticData;
         private ISaveLoadService _saveLoadService;
+        private DiContainer _container;
 
         public GameFactory(IAssets assets,
             IStaticDataService staticData,
-            ISaveLoadService saveLoadService)
+            ISaveLoadService saveLoadService,
+            DiContainer container)
         {
             _asset = assets;
             _staticData = staticData;
             _saveLoadService = saveLoadService;
+            _container = container;
+            PhotonNetwork.PrefabPool = this;
+            
         }
 
         public async Task WarmUp()
@@ -47,14 +53,17 @@ namespace CodeBase.Infrastructure.Factory
         {
             WeaponStaticData weaponStaticData = _staticData.ForWeapon(weaponType);
 
-            GameObject weaponReference = await _asset.Load<GameObject>(weaponStaticData.WeaponPrefabReference);
-            GameObject weaponGO = InstantiateRegistered(weaponReference, parent);
+            //GameObject weaponReference = await _asset.Load<GameObject>(weaponStaticData.WeaponPrefabReference);
+            GameObject weaponGO = PhotonNetwork.Instantiate(weaponType.ToString(),parent.position,Quaternion.identity);
+            //GameObject weaponGO = InstantiateRegistered(weaponReference, parent);
+            
             PlayerWeapon playerWeapon = weaponGO.GetComponentInChildren<PlayerWeapon>();
             playerWeapon.Damage = weaponStaticData.Damage;
             playerWeapon.MagazineCount = weaponStaticData.MagazineCount;
             playerWeapon.WeaponType = weaponStaticData._weaponType;
             playerWeapon.ShootDelay = weaponStaticData.ShootDelay;
             playerWeapon.ReloadDelay = weaponStaticData.ReloadDelay;
+            
             return weaponGO;
         }
 
@@ -72,6 +81,11 @@ namespace CodeBase.Infrastructure.Factory
             roomButton.transform.SetParent(parent);
             PlayerListItem playerListItem = roomButton.GetComponent<PlayerListItem>();
             playerListItem.Constructor(playerInfo);
+        }
+
+        public GameObject CreateGameObject(string key,Vector3 pos,Quaternion rotation)
+        {
+            return PhotonNetwork.Instantiate(key, pos, rotation);
         }
 
         public async Task<ISoundService> CreateSoundManager(SoundManagerData soundManagerData)
@@ -94,9 +108,10 @@ namespace CodeBase.Infrastructure.Factory
         }
 
 
-        public async Task<GameObject> CreateHero(Vector3 at)
+        public GameObject CreateHero(Vector3 at)
         {
-            GameObject HeroGameObject = await InstantiateRegisteredAsync(AssetsAdress.Hero, at);
+            //GameObject HeroGameObject = await InstantiateRegisteredAsync(AssetsAdress.Hero, at);
+            GameObject HeroGameObject = PhotonNetwork.Instantiate(AssetsAdress.Hero, at, Quaternion.identity);
             return HeroGameObject;
         }
 
@@ -115,12 +130,14 @@ namespace CodeBase.Infrastructure.Factory
         public async Task<GameObject> CreateCamera()
         {
             GameObject cameraGameObject = await InstantiateAsync(AssetsAdress.Camera);
+
             return cameraGameObject;
         }
 
         public async Task<GameObject> CreateCamera(Transform cameraSpawnPoint)
         {
-            GameObject cameraGameObject = await InstantiateAsync(AssetsAdress.Camera, cameraSpawnPoint.position);
+            GameObject cameraGameObject =
+                await InstantiateAsync(AssetsAdress.Camera,cameraSpawnPoint.transform.position);
             return cameraGameObject;
         }
 
@@ -174,6 +191,13 @@ namespace CodeBase.Infrastructure.Factory
             return gameObject;
         }
 
+        private GameObject InstantiateRegistered(GameObject prefab, Vector3 at, Quaternion rotation)
+        {
+            GameObject gameObject = GameObject.Instantiate(prefab, at, rotation);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
         private GameObject InstantiateRegistered(GameObject prefab, Transform parent)
         {
             GameObject gameObject = Object.Instantiate(prefab, parent);
@@ -195,6 +219,21 @@ namespace CodeBase.Infrastructure.Factory
         {
             _saveLoadService.CleanUp();
             _asset.CleanUp();
+        }
+
+        public GameObject Instantiate(string prefabId, Vector3 position, Quaternion rotation)
+        {
+            GameObject prefab = _asset.LoadSynchronously<GameObject>(prefabId);
+            
+            if (rotation == Quaternion.identity) rotation = prefab.transform.rotation;
+            
+            GameObject gameObject = InstantiateRegistered(prefab, position, rotation);
+            return gameObject;
+        }
+
+        public void Destroy(GameObject gameObject)
+        {
+            GameObject.Destroy(gameObject);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace CodeBase.Infrastructure.Factory
 {
     public interface IGameFactory
     {
-        Task<GameObject> CreateHero(Vector3 at);
+        GameObject CreateHero(Vector3 at);
         Task<GameObject> CreateHud();
         Task<GameObject> CreateCamera();
         Task<GameObject> CreateCamera(Transform parent);
@@ -23,5 +23,6 @@ namespace CodeBase.Infrastructure.Factory
         void CleanUp();
         void CreatePlayerRoomButton(Player playerInfo, NetworkLauncher networkLauncher, Transform parent);
         Task<GameObject> CreatePlayerUI();
+        GameObject CreateGameObject(string key,Vector3 pos,Quaternion rotation);
     }
 }

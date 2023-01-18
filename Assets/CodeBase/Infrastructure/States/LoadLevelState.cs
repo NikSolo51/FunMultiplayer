@@ -84,9 +84,9 @@ namespace CodeBase.Infrastructure.States
         }
 
 
-        private async Task<GameObject> CreateHero(LevelStaticData levelData)
+        private  GameObject CreateHero(LevelStaticData levelData)
         {
-            GameObject hero = await _gameFactory.CreateHero(levelData.InitialHostPosition);
+            GameObject hero =  _gameFactory.CreateHero(levelData.InitialHostPosition);
             HeroMove heroMove = hero.GetComponent<HeroMove>();
             _container.Inject(heroMove);
             return hero;
