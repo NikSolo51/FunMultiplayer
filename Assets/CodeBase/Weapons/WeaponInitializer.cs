@@ -17,7 +17,6 @@ namespace CodeBase.Weapons
         private IPlayerWeaponsInventory _playerWeaponsInventory;
         private IGameFactory _gameFactory;
         private PlayerWeapon playerWeapon;
-        private bool already;
         private int weaponId;
 
         [Inject]
@@ -25,40 +24,22 @@ namespace CodeBase.Weapons
         {
             _playerWeaponsInventory = playerWeaponsInventory;
             _gameFactory = gameFactory;
+            InitializeWeapon();
         }
 
-        public void Setup(int weaponId)
-        {
-            _photonView.RPC("InitializeWeapon", RpcTarget.All, weaponId);
-        }
 
-        [PunRPC]
-        private async void InitializeWeapon(int weaponId)
+        private async void InitializeWeapon()
         {
-            if (_photonView.IsMine)
-            {
-                if (already)
-                    return;
-            }
-
             GameObject weapon = await _gameFactory.CreateWeapon(_playerWeaponsInventory.WeaponType,
                 _weaponPosition);
+
+            weapon.transform.position = _weaponPosition.position;
+            weapon.transform.SetParent(_weaponPosition);
             playerWeapon = weapon.GetComponent<PlayerWeapon>();
-            PhotonView weaponView = playerWeapon.GetComponent<PhotonView>();
-            weaponView.ViewID = weaponId;
-
-            if (_photonView.IsMine)
-            {
-                //playerWeapon.OnReloadPercent += _reloadIndicator.AnimateIndicator;
-                _playerWeaponsInventory.PlayerWeapon = playerWeapon;
-                
-                already = true;
-            }
-        }
-
-        public PlayerWeapon GetPlayerWeapon()
-        {
-            return playerWeapon;
+            playerWeapon.Construct(_gameFactory);
+            
+            //playerWeapon.OnReloadPercent += _reloadIndicator.AnimateIndicator;
+            _playerWeaponsInventory.PlayerWeapon = playerWeapon;
         }
 
         private void OnDestroy()

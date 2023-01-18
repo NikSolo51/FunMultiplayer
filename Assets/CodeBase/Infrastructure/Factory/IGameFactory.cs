@@ -13,7 +13,7 @@ namespace CodeBase.Infrastructure.Factory
         GameObject CreateHero(Vector3 at);
         Task<GameObject> CreateHud();
         Task<GameObject> CreateCamera();
-        GameObject CreateCamera(Transform parent);
+        Task<GameObject> CreateCamera(Transform parent);
         Task<ISoundService> CreateSoundManager(SoundManagerData soundManagerData);
         Task<GameObject> CreateUpdateManager();
 
@@ -23,5 +23,6 @@ namespace CodeBase.Infrastructure.Factory
         void CleanUp();
         void CreatePlayerRoomButton(Player playerInfo, NetworkLauncher networkLauncher, Transform parent);
         Task<GameObject> CreatePlayerUI();
+        GameObject CreateGameObject(string key,Vector3 pos,Quaternion rotation);
     }
 }
