@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 6544804088808096432}
   - component: {fileID: 8150773211278830381}
   - component: {fileID: 5478316864404206248}
-  - component: {fileID: 1408932918620504891}
   - component: {fileID: 175150564516193091}
   - component: {fileID: 4187065044172788730}
   - component: {fileID: 6754387683579928856}
   - component: {fileID: 2203776355009633966}
+  - component: {fileID: 2670545175741890907}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Player
@@ -130,21 +130,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterController: {fileID: 3592233890287435172}
   _movementSpeed: 4
---- !u!114 &1408932918620504891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6433269669172647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c45719f894c0434588d1baac5a8e3796, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _photonView: {fileID: 6544804088808096432}
-  _reloadIndicator: {fileID: 0}
-  _weaponPosition: {fileID: 3991531044198115994}
+  _enableRandomPosition: 1
+  _randomPos: {x: 3, y: 0, z: 0}
 --- !u!114 &175150564516193091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9f65d39e74485896f5db9f2fcc949e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _photonView: {fileID: 6544804088808096432}
+  _weaponInitPoint: {fileID: 3991531044198115994}
 --- !u!114 &6754387683579928856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,10 +183,24 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.56
   m_Height: 2.072206
   m_Direction: 1
   m_Center: {x: 0, y: -0.037442714, z: 0}
+--- !u!136 &2670545175741890907
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433269669172647}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5908328179730753577
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +213,7 @@ GameObject:
   - component: {fileID: 7165649750630921564}
   - component: {fileID: 6223838571247409170}
   - component: {fileID: 7317966092292864155}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +309,7 @@ GameObject:
   - component: {fileID: 9174561373780785311}
   - component: {fileID: 1136327652194062725}
   - component: {fileID: 4825008187480996448}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3991531044198115994}
   m_Layer: 0
-  m_Name: WeaponPosition
+  m_Name: WeaponInitPoint
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

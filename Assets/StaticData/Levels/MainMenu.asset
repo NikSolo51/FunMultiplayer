@@ -31,3 +31,5 @@ MonoBehaviour:
     _clips: []
   InitialHostPosition: {x: 0, y: 0, z: 0}
   InitialOthePlayerPosition: {x: 0, y: 0, z: 0}
+  InitialCameraPosition: {x: 0, y: 0, z: 0}
+  InitialCameraRotation: {x: 0, y: 0, z: 0, w: 0}

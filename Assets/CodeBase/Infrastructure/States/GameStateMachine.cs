@@ -5,6 +5,7 @@ using CodeBase.Logic;
 using CodeBase.Services.PersistentProgress;
 using CodeBase.Services.SaveLoad;
 using CodeBase.Services.StaticData;
+using CodeBase.WeaponsInventory;
 using Zenject;
 
 namespace CodeBase.Infrastructure.States
@@ -26,6 +27,7 @@ namespace CodeBase.Infrastructure.States
                     container.Resolve<IGameFactory>(),
                     container.Resolve<IStaticDataService>(),
                     container.Resolve<ISaveLoadService>(),
+                    container.Resolve<IPlayerWeaponsInventory>(),
                     container
                     ),
                 [typeof(LoadProgressState)] = new LoadProgressState(

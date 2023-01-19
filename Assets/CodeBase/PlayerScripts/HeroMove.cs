@@ -11,6 +11,8 @@ namespace CodeBase.PlayerScripts
     {
         [Required] [SerializeField] private CharacterController _characterController;
         [SerializeField] private float _movementSpeed = 1;
+        [SerializeField] private bool _enableRandomPosition = true;
+        [SerializeField] private Vector3 _randomPos;
 
         private IInputService _inputService;
         private IUpdateService _updateService;
@@ -83,7 +85,6 @@ namespace CodeBase.PlayerScripts
 
             float angle = AngleBetweenTwoPoints(positionOnScreen, mouseOnScreen);
 
-            Debug.Log(_dotDirection);
             if (_dotDirection > 0.9)
             {
                 angle = -angle + 90;
@@ -103,7 +104,12 @@ namespace CodeBase.PlayerScripts
 
         public void ResetPosition()
         {
-            transform.position = _startPos;
+            if (_enableRandomPosition)
+                transform.position = _startPos + new Vector3(Random.Range(-_randomPos.x,_randomPos.x),
+                    Random.Range(-_randomPos.y,_randomPos.y),
+                    Random.Range(-_randomPos.z,_randomPos.z));
+            else
+                transform.position = _startPos;
         }
     }
 }

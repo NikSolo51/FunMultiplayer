@@ -2,6 +2,7 @@
 {
     public enum BulletType
     {
-        Trail
+        Trail,
+        Rocket
     }
 }

@@ -17,9 +17,9 @@ namespace CodeBase.Infrastructure
 
         public void Load(string name, Action onLoaded = null)
         {
-            _coroutineRunner.StartCoroutine(LoadScene(name, onLoaded));
+            _coroutineRunner.StartCoroutine(LoadScene(name,onLoaded));
         }
-
+        
         public IEnumerator LoadScene(string nextScene, Action onLoaded = null)
         {
             if (SceneManager.GetActiveScene().name == nextScene)
@@ -30,7 +30,6 @@ namespace CodeBase.Infrastructure
 
             //AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(nextScene);
             PhotonNetwork.LoadLevel(nextScene);
-            
             onLoaded?.Invoke();
         }
     }

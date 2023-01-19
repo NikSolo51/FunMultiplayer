@@ -24,6 +24,7 @@ namespace CodeBase.Weapons
         private float _lastShootTime;
         private bool _cantShoot;
         public override event Action<float> OnReloadPercent;
+        public override event Action<int> OnAmmoCount;
 
         public override void Construct(IGameFactory gameFactory)
         {
@@ -34,6 +35,7 @@ namespace CodeBase.Weapons
         {
             _currentAmmo = MagazineCount;
             _shootingSystem.Stop();
+            OnAmmoCount?.Invoke(_currentAmmo);
         }
 
 
@@ -49,13 +51,13 @@ namespace CodeBase.Weapons
 
             if (_lastShootTime + ShootDelay < Time.time)
             {
-                RaycastHit hitInfo = _hitScan.GetHit(_shootOrigin.forward);
+                RaycastHit hitInfo = _hitScan.GetHit(GetDirection(_shootOrigin));
 
                 GameObject trailGO = _gameFactory.CreateBullet(BulletType, _shootOrigin.transform.position,
-                    Quaternion.identity);
-                TrailRenderer trail = trailGO.GetComponent<TrailRenderer>();
+                    _shootOrigin.rotation);
+                TrailRenderer trail = trailGO.GetComponentInChildren<TrailRenderer>();
                 
-                StartCoroutine(SpawnTrail(trail, hitInfo));
+                StartCoroutine(SpawnTrail(trailGO,trail, hitInfo));
                 
                 PhotonView enemyPhotonView = hitInfo.collider?.GetComponent<PhotonView>();
                 if (enemyPhotonView)
@@ -63,7 +65,7 @@ namespace CodeBase.Weapons
                 _shootingSystem.Play();
 
                 _currentAmmo--;
-
+                OnAmmoCount?.Invoke(_currentAmmo);
                 if (_currentAmmo <= 0)
                 {
                     StartCoroutine(Reload());
@@ -73,9 +75,9 @@ namespace CodeBase.Weapons
             }
         }
 
-        private Vector3 GetDirection()
+        private Vector3 GetDirection(Transform shootOrigin)
         {
-            Vector3 direction = transform.forward;
+            Vector3 direction = shootOrigin.forward;
             if (_addBulletSpread)
             {
                 direction += new Vector3(
@@ -89,21 +91,20 @@ namespace CodeBase.Weapons
             return direction;
         }
 
-        private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hitInfo)
+        private IEnumerator SpawnTrail(GameObject bullet,TrailRenderer trail, RaycastHit hitInfo)
         {
             float time = 0;
-            Vector3 startPos = trail.transform.position;
+            Vector3 startPos = bullet.transform.position;
 
             while (time < 1)
             {
-                trail.transform.position = Vector3.Lerp(startPos, hitInfo.point, time);
+                bullet.transform.position = Vector3.Lerp(startPos, hitInfo.point, time);
                 time += Time.deltaTime / trail.time;
                 yield return null;
             }
-
-            trail.transform.position = hitInfo.point;
+            bullet.transform.position = hitInfo.point;
             
-            Destroy(trail.gameObject, trail.time);
+            Destroy(bullet.gameObject, trail.time);
         }
 
         private IEnumerator Reload()
@@ -120,6 +121,7 @@ namespace CodeBase.Weapons
 
             _cantShoot = false;
             _currentAmmo = MagazineCount;
+            OnAmmoCount?.Invoke(_currentAmmo);
             OnReloadPercent?.Invoke(0);
         }
     }

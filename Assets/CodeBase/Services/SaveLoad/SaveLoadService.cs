@@ -37,7 +37,6 @@ namespace CodeBase.Services.SaveLoad
 
         public void Register(ISavedProgressReader progressReader)
         {
-            Debug.Log("Register");
             if (progressReader is ISavedProgress progressWriter)
             {
                 if (!ProgressWriters.Contains(progressWriter)) 

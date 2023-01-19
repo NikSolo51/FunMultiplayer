@@ -13,7 +13,7 @@
 
         public void Enter()
         {
-            _sceneLoader.Load(Initial, onLoaded: EnterLoadLevel);
+            _sceneLoader.Load(Initial);
         }
 
         public void Exit()

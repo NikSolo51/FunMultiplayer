@@ -13,5 +13,7 @@ namespace CodeBase.Services.StaticData
 
         public Vector3 InitialHostPosition;
         public Vector3 InitialOthePlayerPosition;
+        public Vector3 InitialCameraPosition;
+        public Quaternion InitialCameraRotation;
     }
 }

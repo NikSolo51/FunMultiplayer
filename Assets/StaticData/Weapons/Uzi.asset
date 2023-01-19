@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e556ba201495458d93d3463bb19d4469, type: 3}
-  m_Name: Shotgun
+  m_Name: Uzi
   m_EditorClassIdentifier: 
-  _weaponType: 3
+  _weaponType: 0
   _bulletType: 0
-  MagazineCount: 2
-  Damage: 35
-  ShootDelay: 1
-  ReloadDelay: 2
+  MagazineCount: 25
+  Damage: 2
+  ShootDelay: 0.05
+  ReloadDelay: 3

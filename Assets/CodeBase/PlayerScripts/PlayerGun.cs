@@ -1,6 +1,5 @@
 ﻿using CodeBase.Services.Input;
 using CodeBase.WeaponsInventory;
-using Photon.Pun;
 using UnityEngine;
 using Zenject;
 
@@ -8,7 +7,7 @@ namespace CodeBase.PlayerScripts
 {
     public class PlayerGun : MonoBehaviour
     {
-        [SerializeField] private PhotonView _photonView;
+        public Transform _weaponInitPoint;
         private IInputService _inputService;
         private IPlayerWeaponsInventory _playerWeaponsInventory;
 

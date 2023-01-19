@@ -152,10 +152,10 @@ namespace CodeBase.Infrastructure.Factory
             return cameraGameObject;
         }
 
-        public async Task<GameObject> CreateCamera(Transform cameraSpawnPoint)
+        public async Task<GameObject> CreateCamera(Vector3 cameraInitPointPos)
         {
             GameObject cameraGameObject =
-                await InstantiateAsync(AssetsAdress.Camera, cameraSpawnPoint.transform.position);
+                await InstantiateAsync(AssetsAdress.Camera, cameraInitPointPos);
             return cameraGameObject;
         }
 

@@ -5,6 +5,10 @@
         Knife,
         Pistol,
         AK74,
-        Shotgun
+        Shotgun,
+        M107,
+        M4_8,
+        RPG7,
+        Uzi
     }
 }

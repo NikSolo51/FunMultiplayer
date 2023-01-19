@@ -21,6 +21,14 @@ MonoBehaviour:
     m_Address: BulletPrototype
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: d440833cbfebaa84796b403cd6a34ed6
+    m_Address: Trail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 016f433031cb25444a0195acf983c5b8
+    m_Address: Rocket
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f0431b809b74cbe41b3c1566f5cefcb2, type: 2}
   m_SchemaSet:

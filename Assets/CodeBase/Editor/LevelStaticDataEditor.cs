@@ -28,6 +28,9 @@ namespace CodeBase.Editor
                 
                 levelData.InitialHostPosition = GameObject.FindGameObjectWithTag(InitialHostPointTag).transform.position;
                 levelData.InitialOthePlayerPosition = GameObject.FindGameObjectWithTag(InitialOtherPlayerPointTag).transform.position;
+                Transform initialCameraPoint= GameObject.FindGameObjectWithTag(InitialCameraPointTag).transform;
+                levelData.InitialCameraPosition = initialCameraPoint.position;
+                levelData.InitialCameraRotation = initialCameraPoint.rotation;
             }
 
             EditorUtility.SetDirty(target);

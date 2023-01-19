@@ -15,7 +15,7 @@ namespace CodeBase.Infrastructure.Factory
         Task<GameObject> CreateHud();
         Task<GameObject> CreateWeaponUI(WeaponStaticData weaponStaticData,Transform parent);
         Task<GameObject> CreateCamera();
-        Task<GameObject> CreateCamera(Transform parent);
+        Task<GameObject> CreateCamera(Vector3 cameraInitPointPos);
         Task<ISoundService> CreateSoundManager(SoundManagerData soundManagerData);
         Task<GameObject> CreateUpdateManager();
 
