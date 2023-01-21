@@ -1,4 +1,4 @@
-﻿using CodeBase.Services.Audio.SoundManager;
+﻿using CodeBase.SoundManager;
 using UnityEngine;
 
 namespace CodeBase.Services.StaticData

@@ -1,5 +1,5 @@
 ﻿
-namespace CodeBase.Services.Audio.SoundManager
+namespace CodeBase.SoundManager
 {
     public enum SoundManagerType
     {

@@ -1,6 +1,4 @@
-﻿using System;
-using CodeBase.Services.Update;
-using Photon.Pun;
+﻿using CodeBase.Services.Update;
 using UnityEngine;
 using Zenject;
 

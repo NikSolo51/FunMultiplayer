@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace CodeBase.Services.Audio
+namespace CodeBase.SoundManager
 {
     [Serializable]
     public class Sound {

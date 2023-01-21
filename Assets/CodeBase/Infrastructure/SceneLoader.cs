@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using Photon.Pun;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CodeBase.Infrastructure

@@ -2,15 +2,14 @@
 using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Network;
 using CodeBase.Services.Audio;
-using CodeBase.Services.Audio.SoundManager;
 using CodeBase.Services.SaveLoad;
 using CodeBase.Services.StaticData;
+using CodeBase.SoundManager;
 using CodeBase.UI;
 using CodeBase.Weapons;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using Zenject;
 
 namespace CodeBase.Infrastructure.Factory

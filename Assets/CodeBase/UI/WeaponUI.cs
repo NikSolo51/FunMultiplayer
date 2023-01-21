@@ -1,7 +1,4 @@
-﻿using System;
-using CodeBase.Data;
-using CodeBase.Services.SaveLoad;
-using CodeBase.Services.StaticData;
+﻿using CodeBase.Services.StaticData;
 using CodeBase.Weapons;
 using CodeBase.WeaponsInventory;
 using TMPro;

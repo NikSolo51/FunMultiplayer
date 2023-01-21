@@ -1,7 +1,4 @@
-﻿using System;
-using Photon.Pun;
-
-namespace CodeBase.Weapons.Reload
+﻿namespace CodeBase.Logic.Inidcators
 {
     public class ReloadUIIndicator : UIIndicator
     {

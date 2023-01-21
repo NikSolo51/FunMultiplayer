@@ -1,4 +1,4 @@
-﻿using CodeBase.Services.Audio.SoundManager;
+﻿using CodeBase.SoundManager;
 using CodeBase.Weapons;
 
 namespace CodeBase.Services.StaticData

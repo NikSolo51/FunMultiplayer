@@ -2,15 +2,13 @@
 using CodeBase.CameraLogic;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Logic;
+using CodeBase.Logic.Inidcators;
 using CodeBase.PlayerScripts;
 using CodeBase.Services.Audio;
-using CodeBase.Services.Input;
 using CodeBase.Services.SaveLoad;
 using CodeBase.Services.StaticData;
-using CodeBase.Services.Update;
 using CodeBase.UI;
 using CodeBase.Weapons;
-using CodeBase.Weapons.Reload;
 using CodeBase.WeaponsInventory;
 using Photon.Pun;
 using UnityEngine;

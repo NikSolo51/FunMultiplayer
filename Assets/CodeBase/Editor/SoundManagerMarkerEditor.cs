@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CodeBase.Services.Audio.SoundManager;
 using CodeBase.Services.StaticData;
+using CodeBase.SoundManager;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

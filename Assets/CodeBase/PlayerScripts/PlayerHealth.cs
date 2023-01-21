@@ -1,5 +1,4 @@
 ﻿using System;
-using CodeBase.Weapons;
 using Photon.Pun;
 using UnityEngine;
 

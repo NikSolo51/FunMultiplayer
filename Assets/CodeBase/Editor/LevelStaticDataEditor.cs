@@ -1,5 +1,5 @@
-﻿using CodeBase.Services.Audio.SoundManager;
-using CodeBase.Services.StaticData;
+﻿using CodeBase.Services.StaticData;
+using CodeBase.SoundManager;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CodeBase.Services.Audio.SoundManager;
+using CodeBase.SoundManager;
 using CodeBase.Weapons;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceLocations;
 

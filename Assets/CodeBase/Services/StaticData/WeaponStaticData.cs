@@ -1,6 +1,5 @@
 ﻿using CodeBase.Weapons;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace CodeBase.Services.StaticData
 {

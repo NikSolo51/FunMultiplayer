@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections;
 using CodeBase.Infrastructure.Factory;
-using CodeBase.Services.StaticData;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
-using Zenject;
 using Random = UnityEngine.Random;
 
-namespace CodeBase.Weapons
+namespace CodeBase.Weapons.WeaponsRealization
 {
     public class Weapon : PlayerWeapon
     {

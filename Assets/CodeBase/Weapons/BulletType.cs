@@ -1,4 +1,4 @@
-﻿namespace CodeBase.Services.StaticData
+﻿namespace CodeBase.Weapons
 {
     public enum BulletType
     {

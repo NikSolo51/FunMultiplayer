@@ -1,11 +1,14 @@
 using Zenject;
 
-public class DiContainerInstaller : MonoInstaller
+namespace CodeBase.Zenject.Installers
 {
-    
-    public ProjectContext _projectContext;
-   
-    public override void InstallBindings()
+    public class DiContainerInstaller : MonoInstaller
     {
+    
+        public ProjectContext _projectContext;
+   
+        public override void InstallBindings()
+        {
+        }
     }
 }

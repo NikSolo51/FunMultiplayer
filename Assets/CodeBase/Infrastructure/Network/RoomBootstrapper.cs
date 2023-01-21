@@ -1,12 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.States;
+﻿using CodeBase.Infrastructure.States;
 using Photon.Pun;
-using Sirenix.OdinInspector;
 using UnityEngine.SceneManagement;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace CodeBase.Infrastructure.Network
 {

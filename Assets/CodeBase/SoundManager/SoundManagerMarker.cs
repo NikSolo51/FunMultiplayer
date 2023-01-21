@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CodeBase.Services.Audio.SoundManager
+namespace CodeBase.SoundManager
 {
     public class SoundManagerMarker : MonoBehaviour
     {

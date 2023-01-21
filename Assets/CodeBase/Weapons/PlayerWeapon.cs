@@ -1,7 +1,6 @@
 ﻿using System;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Services.StaticData;
-using Photon.Pun;
 using UnityEngine;
 
 namespace CodeBase.Weapons

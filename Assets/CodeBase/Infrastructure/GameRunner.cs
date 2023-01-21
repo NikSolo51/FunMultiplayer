@@ -1,5 +1,4 @@
-﻿using CodeBase.Infrastructure.States;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace CodeBase.Infrastructure

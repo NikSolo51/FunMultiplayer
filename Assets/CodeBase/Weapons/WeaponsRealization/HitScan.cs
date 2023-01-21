@@ -1,8 +1,6 @@
-﻿using System;
-using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace CodeBase.Weapons
+namespace CodeBase.Weapons.WeaponsRealization
 {
     public class HitScan : MonoBehaviour
     {

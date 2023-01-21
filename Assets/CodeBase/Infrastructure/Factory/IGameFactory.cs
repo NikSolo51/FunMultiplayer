@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using CodeBase.Infrastructure.Network;
 using CodeBase.Services.Audio;
-using CodeBase.Services.Audio.SoundManager;
 using CodeBase.Services.StaticData;
+using CodeBase.SoundManager;
 using CodeBase.Weapons;
 using Photon.Realtime;
 using UnityEngine;

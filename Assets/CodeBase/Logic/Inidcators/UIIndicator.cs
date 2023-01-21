@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace CodeBase.Weapons.Reload
+namespace CodeBase.Logic.Inidcators
 {
     public abstract class UIIndicator : MonoBehaviour
     {

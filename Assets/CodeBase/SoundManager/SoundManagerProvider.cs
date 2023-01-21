@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using CodeBase.Services.Audio;
+using UnityEngine;
 
-namespace CodeBase.Services.Audio.SoundManager
+namespace CodeBase.SoundManager
 {
     public class SoundManagerProvider : MonoBehaviour, ISoundService
     {

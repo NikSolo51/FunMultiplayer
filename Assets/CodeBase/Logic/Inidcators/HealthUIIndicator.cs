@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace CodeBase.Weapons.Reload
+﻿namespace CodeBase.Logic.Inidcators
 {
     public class HealthUIIndicator : UIIndicator
     {
