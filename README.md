@@ -4,6 +4,8 @@ Killbox is a multiplayer pet project inspired by the map of the same name from H
 Using as tech stack: __C#, Unity, Addressables, JahroConsole, Odin, Zenject__.
 
 Multiplayer framework: __[Photon](https://www.photonengine.com/)__.
+# Download my game
+__Itch io: [KillBox](https://nik-salazar.itch.io/killbox)__
 _______________
 # Photon
 The [Photon](https://www.photonengine.com/) is a game engine specializing in multiplayer game development. It’s a series of products, software, technology, and networking components that bring great speed, performance, and more to online play.
